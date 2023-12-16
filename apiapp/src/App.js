@@ -34,6 +34,9 @@ const App = () => {
           <li key={item.id}>
             <img src={item.edmPreview} alt={item.title} />
             <p>{item.title}</p>
+            <p>{item.country} {item.provider}</p>
+            <p>{item.dcCreator}</p>
+           
           </li>
         ))}
       </ul>
