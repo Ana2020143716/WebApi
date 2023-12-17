@@ -43,7 +43,9 @@ const App = () => {
 
           {items.map((item) => (
             <li key={item.id}>
-              <img src={item.edmPreview} alt={item.title} />
+              <a href={item.edmIsShownAt} target="_blank" rel="noopener noreferrer">
+                <img src={item.edmPreview} alt={item.title} />
+              </a>
               <h3>{item.title}</h3>
               <p>{item.country}, {item.provider}</p>
               <p>{item.dataProvider}</p>
