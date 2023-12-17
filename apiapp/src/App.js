@@ -1,6 +1,7 @@
 // src/components/EuropeanaList.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './App.css';
 
 const App = () => {
   const [items, setItems] = useState([]);
@@ -14,8 +15,16 @@ const App = () => {
         console.log(items);
 
         if (response.data && response.data.items) {
-          setItems(response.data.items);
-        } else {
+          const updatedItems = response.data.items.map((item) => ({
+            ...item,
+            title: item.title && item.title.length > 0 ? item.title[0] : 'No Title',
+          }));
+
+          // Ordena os itens pelo título em ordem alfabética
+          updatedItems.sort((a, b) => a.title.localeCompare(b.title));
+
+          setItems(updatedItems);
+        }else {
           console.error('API response does not contain items');
         }
       } catch (error) {
@@ -29,17 +38,20 @@ const App = () => {
   return (
     <div>
       <h1>Europeana Resources</h1>
-      <ul>
-        {items.map((item) => (
-          <li key={item.id}>
-            <img src={item.edmPreview} alt={item.title} />
-            <p>{item.title}</p>
-            <p>{item.country} {item.provider}</p>
-            <p>{item.dcCreator}</p>
-           
-          </li>
-        ))}
-      </ul>
+      <div className="list">
+        <ul>
+
+          {items.map((item) => (
+            <li key={item.id}>
+              <img src={item.edmPreview} alt={item.title} />
+              <h3>{item.title}</h3>
+              <p>{item.country}, {item.provider}</p>
+              <p>{item.dataProvider}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+
     </div>
   );
 };
