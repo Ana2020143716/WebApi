@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './App.css';
 
-const App = () => {
+const SearchCountry = () => {
   const [items, setItems] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   // ...
@@ -32,8 +32,8 @@ const App = () => {
           title: item.title && item.title.length > 0 ? item.title[0] : 'No Title',
           dcCreator: item.dcCreator && item.dcCreator.length > 0 ? item.dcCreator[0] : 'No Title'
         }));
-
-
+        
+        
 
         updatedItems.sort((a, b) => a.title.localeCompare(b.title));
 
@@ -43,7 +43,7 @@ const App = () => {
           if (item.country && !uniqueCountriesSet.has(item.country[0])) {
             uniqueCountriesSet.add(item.country[0]);
             accumulator.push(item.country[0]);
-          }
+          } 
           return accumulator;
         }, []);
 
@@ -63,15 +63,15 @@ const App = () => {
   const handleSearch = () => {
     // Cria uma cópia dos itens originais
     let filteredItems = [...items];
-
+  
     // Filtra os itens com base no termo de pesquisa por título
     if (searchTerm) {
       filteredItems = filteredItems.filter((item) =>
-        item.title.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  item.title.toLowerCase().includes(searchTerm.toLowerCase())
+);
 
     }
-
+  
     // Filtra novamente com base no termo de pesquisa por país
     if (countrySearchTerm) {
       filteredItems = filteredItems.filter((item) =>
@@ -79,15 +79,15 @@ const App = () => {
         item.country.toLowerCase().includes(countrySearchTerm.toLowerCase())
       );
     }
-
+  
     // Atualiza a lista de itens com base no resultado da pesquisa
     setItems(filteredItems);
     console.log('Search Term:', searchTerm);
     console.log('Filtered Items:', filteredItems);
     console.log('Unique Countries:', uniqueCountries);
   };
-
-
+  
+  
   const handleCountryChange = (selectedCountry) => {
     setSelectedCountry(selectedCountry);
     const artworks = items.filter((item) => item.country[0] === selectedCountry);
@@ -101,7 +101,7 @@ const App = () => {
 
   const handleReset = () => {
     // Reseta a lista de itens para a original
-    fetchData();  
+    fetchData();
     setSearchTerm('');
     setCountrySearchTerm('');
     setArtworksForCountry([]);
@@ -158,8 +158,10 @@ const App = () => {
       <div className="list">
         <ul>
 
-          {(items || []).map((item) => (
+
+        {(artworksForCountry || []).map((item) => (
             <li key={item.id}>
+
               <a href={item.edmIsShownAt} target="_blank" rel="noopener noreferrer">
                 <img src={item.edmPreview} alt={item.title} />
               </a>
@@ -176,4 +178,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default SearchCountry;
